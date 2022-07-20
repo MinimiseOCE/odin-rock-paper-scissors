@@ -14,12 +14,12 @@ function askPlayer() {
         let cleanAns = response.toLowerCase();
         // Make sure their input is one of the three
         if (cleanAns == "rock" || cleanAns == "paper" || cleanAns == "scissors") {
-            alert("You Selected " + response + ".")
+            console.log("You Selected " + response + ".")
             return cleanAns
         }
         // If not one of the three ask again and give error message
         else {
-            alert('Please Select Either Rock/Paper or Scissors.')
+            console.log('Please Select Either Rock/Paper or Scissors.')
         }
     }
 }
@@ -45,18 +45,19 @@ function askComputer() {
 // Compare options to decide winner
 function decideWinner() {
     // If player wins type You Win! (explanation)
-    if (playerAns == 'paper' && compAns == 'rock' || playerAns == 'rock' && compAns == 'scissors' || playerAns == 'scissors' && compAns == 'paper') {
-        alert('You Win! ' + playerAns + ' beats ' + compAns)
+    if (playerAns == 'paper' && compAns == 'rock' || playerAns == 'rock' && 
+        compAns == 'scissors' || playerAns == 'scissors' && compAns == 'paper') {
+        console.log('You Win! ' + playerAns + ' beats ' + compAns)
         return 'Win';
     }
     // If player loses type You Lose! (explanation)
     else if (playerAns == 'rock' && compAns == 'paper' || playerAns == 'scissors' && compAns == 'rock' || playerAns == 'paper' && compAns == 'scissors') {
-        alert('You Lose ): ' + compAns + ' beats ' + playerAns)
+        console.log('You Lose ): ' + compAns + ' beats ' + playerAns)
         return 'Lose';
     }
     // If tie type You Draw D: (explanation)
     else {
-        alert('You Draw D:, you both picked ' + compAns + '!')
+        console.log('You Draw D:, you both picked ' + compAns + '!')
         return 'Draw';
     }
 }
@@ -96,7 +97,7 @@ function roundCount() {
         }
         // Else ask again
         else {
-            alert("Please Select A Number.");
+            console.log("Please Select A Number.");
         }
     }
 }
@@ -111,7 +112,7 @@ function playAgain() {
         let cleanAns = response.toLowerCase();
         // If they answer no end cycle
         if (cleanAns == "no") {
-            alert("Come back soon ;-; ");
+            console.log("Come back soon ;-; ");
             return cleanAns;
         }
         // If they answer yes play again
@@ -120,11 +121,96 @@ function playAgain() {
         }
         // Make sure they input yes or no
         else {
-            alert('Please Select Either Yes or No');
+            console.log('Please Select Either Yes or No');
         }
     }
 }
 
-
 // Run Program
-replay()
+let cWins = 0
+let pWins = 0
+
+const rock = document.querySelector('#rock');
+rock.addEventListener('click', function (e) {
+  playerAns = 'rock';
+  compAns = askComputer();
+  winStatus = decideWinner();
+  if (winStatus == 'Win') {
+    pWins = pWins + 1
+    pScore.textContent = pWins + ' wins!';
+    if (pWins == 5) {
+        battleStatus.textContent = 'You Win!';
+    }
+  }
+  else if (winStatus == 'Lose') {
+    cWins = cWins = 1
+    cScore.textContent = cWins + ' losses!';
+    if (cWins == 5) {
+        battleStatus.textContent = 'You Lose! D:';
+    }
+  }
+});
+
+const paper = document.querySelector('#paper');
+paper.addEventListener('click', function (e) {
+  playerAns = 'paper';
+  compAns = askComputer();
+  winStatus = decideWinner();
+  if (winStatus == 'Win') {
+    pWins = pWins + 1
+    pScore.textContent = pWins + ' wins!';
+    if (pWins == 5) {
+        battleStatus.textContent = 'You Win!';
+    }
+  }
+  else if (winStatus == 'Lose') {
+    cWins = cWins = 1
+    cScore.textContent = cWins + ' losses!';
+    if (cWins == 5) {
+        battleStatus.textContent = 'You Lose! D:';
+    }
+  }
+});
+
+const scissors = document.querySelector('#scissors');
+scissors.addEventListener('click', function (e) {
+  playerAns = 'scissors';
+  compAns = askComputer();
+  winStatus = decideWinner();
+  if (pWins < 5 && cWins < 5) {
+    if (winStatus == 'Win') {
+        pWins = pWins + 1
+        pScore.textContent = pWins + ' wins!';
+        if (pWins == 5) {
+            battleStatus.textContent = 'You Win!';
+        }
+    }
+    else if (winStatus == 'Lose') {
+        cWins = cWins = 1
+        cScore.textContent = cWins + ' losses!';
+        if (cWins == 5) {
+            battleStatus.textContent = 'You Lose! D:';
+        }
+    }
+  }
+});
+
+const container = document.querySelector('#container');
+
+const pScore = document.createElement('div');
+pScore.classList.add('score');
+pScore.style.cssText = 'background-color: pink; border: solid black; '; 
+pScore.textContent = pWins + ' wins!';
+container.appendChild(pScore);
+
+const cScore = document.createElement('div');
+cScore.classList.add('score');
+cScore.style.cssText = 'background-color: pink; border: solid black; '; 
+cScore.textContent = cWins + ' losses!';
+container.appendChild(cScore);
+
+const battleStatus = document.createElement('div');
+battleStatus.classList.add('score');
+battleStatus.style.cssText = 'background-color: pink; border: solid black; '; 
+battleStatus.textContent = 'fight, fight, fight!';
+container.appendChild(battleStatus);
